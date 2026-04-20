@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CampusWallet – Budgets</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">C</div>
+      <div>
+        <div class="logo-title">CampusWallet</div>
+        <div class="logo-sub">UAE Edition</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </a>
+      <a href="transactions.html" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+        Transactions
+      </a>
+      <a href="budgets.html" class="nav-item active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Budgets
+      </a>
+      <a href="goals.html" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        Goals
+      </a>
+      <a href="finlearn.html" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        FinLearn
+      </a>
+      <a href="converter.html" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        Converter
+      </a>
+      <a href="zakat.html" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Zakat
+      </a>
+    </nav>
+    <button class="theme-toggle" onclick="toggleTheme()">
+      <span class="tt-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+      <span class="tt-label">Dark Mode</span>
+    </button>
+    <button class="logout-btn" onclick="logout()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Logout
+    </button>
+    <div class="tip-card">
+      <div class="tip-header">
+        <span class="tip-icon">💡</span>
+        <span class="tip-label">Tip of the day</span>
+      </div>
+      <p class="tip-text">Track your Metro/bus costs — they add up faster than you think!</p>
+    </div>
+  </aside>
+
+  <main class="main">
+    <!-- Header -->
+    <div class="tx-page-header">
+      <div>
+        <h1>Budgets</h1>
+        <p class="page-sub">Semester-smart budget planning</p>
+      </div>
+      <button class="btn-add" onclick="openModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        New Budget
+      </button>
+    </div>
+
+    <!-- Over-budget alert banner (shown when any budget is exceeded) -->
+    <div class="alert-banner" id="alertBanner" style="display:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span id="alertText">You have exceeded a budget!</span>
+    </div>
+
+    <!-- Budget grid -->
+    <div class="budget-grid" id="budgetGrid"></div>
+
+    <!-- Empty state -->
+    <div class="budget-empty" id="budgetEmpty" style="display:none">
+      <div class="budget-empty-icon">📊</div>
+      <h3>No budgets yet</h3>
+      <p>Create your first budget to start tracking your spending.</p>
+      <button class="btn-add" style="margin-top:16px" onclick="openModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        New Budget
+      </button>
+    </div>
+  </main>
+
+  <!-- Create Budget Modal -->
+  <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+    <div class="modal budget-modal">
+      <div class="modal-header">
+        <h3>Create Budget</h3>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+
+      <form id="budgetForm" onsubmit="createBudget(event)">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" id="bName" placeholder="e.g. Monthly Food" required />
+        </div>
+
+        <div class="form-group">
+          <label>Category</label>
+          <div class="custom-select" id="budgetSelect">
+            <div class="cs-trigger" id="bTrigger" onclick="toggleBudgetDropdown()">
+              <span id="bLabel" style="color:var(--text-muted)">Select</span>
+              <svg class="cs-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="cs-dropdown" id="bDropdown"></div>
+          </div>
+          <input type="hidden" id="bCategory" required />
+        </div>
+
+        <div class="form-group">
+          <label>Limit (AED)</label>
+          <input type="number" id="bLimit" placeholder="0.00" step="0.01" min="1" required />
+        </div>
+
+        <div class="form-group">
+          <label>Period</label>
+          <select id="bPeriod">
+            <option value="monthly">Monthly</option>
+            <option value="weekly">Weekly</option>
+            <option value="semester">Semester</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn-primary">Create Budget</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    initTheme();
+    if (!getSession()) { window.location.replace('login.html'); }
+    const EXPENSE_CATS = CATEGORIES.filter(c =>
+      c.name !== 'Remittance' // Remittance is usually income; keep all others
+    );
+    // Actually show all categories in budget so user can budget for any expense type:
+    const BUDGET_CATS = CATEGORIES;
+
+    // ── Dropdown ──
+    let budgetDropOpen = false;
+
+    function buildBudgetDropdown() {
+      const dd = document.getElementById('bDropdown');
+      dd.innerHTML = BUDGET_CATS.map(c => `
+        <div class="cs-option" style="color:${c.color}" onclick="selectBudgetCat('${c.name}')">
+          ${c.name}
+        </div>`).join('');
+    }
+
+    function toggleBudgetDropdown() {
+      budgetDropOpen = !budgetDropOpen;
+      document.getElementById('bDropdown').classList.toggle('open', budgetDropOpen);
+      document.getElementById('bTrigger').classList.toggle('open', budgetDropOpen);
+    }
+
+    function selectBudgetCat(name) {
+      const cat = BUDGET_CATS.find(c => c.name === name);
+      const label = document.getElementById('bLabel');
+      label.textContent = name;
+      label.style.color = cat ? cat.color : '#1f2937';
+      document.getElementById('bCategory').value = name;
+      budgetDropOpen = false;
+      document.getElementById('bDropdown').classList.remove('open');
+      document.getElementById('bTrigger').classList.remove('open');
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!document.getElementById('budgetSelect').contains(e.target)) {
+        budgetDropOpen = false;
+        document.getElementById('bDropdown').classList.remove('open');
+        document.getElementById('bTrigger').classList.remove('open');
+      }
+    });
+
+    // ── Modal ──
+    function openModal() {
+      buildBudgetDropdown();
+      document.getElementById('modalOverlay').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('open');
+      document.getElementById('budgetForm').reset();
+      const label = document.getElementById('bLabel');
+      label.textContent = 'Select';
+      label.style.color = 'var(--text-muted)';
+      document.getElementById('bCategory').value = '';
+    }
+
+    function handleOverlayClick(e) {
+      if (e.target === document.getElementById('modalOverlay')) closeModal();
+    }
+
+    // ── Create budget ──
+    function createBudget(e) {
+      e.preventDefault();
+      const cat = document.getElementById('bCategory').value;
+      if (!cat) { alert('Please select a category.'); return; }
+
+      const budgets = loadBudgets();
+      const existing = budgets.find(b => b.category === cat && b.period === document.getElementById('bPeriod').value);
+      if (existing) {
+        alert(`You already have a ${document.getElementById('bPeriod').value} budget for ${cat}.`);
+        return;
+      }
+
+      budgets.push({
+        id:        Date.now().toString(),
+        name:      document.getElementById('bName').value.trim(),
+        category:  cat,
+        limit:     parseFloat(document.getElementById('bLimit').value),
+        period:    document.getElementById('bPeriod').value,
+        createdAt: today(),
+      });
+      saveBudgets(budgets);
+      closeModal();
+      renderBudgets();
+    }
+
+    // ── Delete budget ──
+    function deleteBudget(id) {
+      if (!confirm('Delete this budget?')) return;
+      saveBudgets(loadBudgets().filter(b => b.id !== id));
+      renderBudgets();
+    }
+
+    // ── Render ──
+    function renderBudgets() {
+      const budgets = loadBudgets();
+      const txns    = loadTxns();
+      const grid    = document.getElementById('budgetGrid');
+      const empty   = document.getElementById('budgetEmpty');
+      const banner  = document.getElementById('alertBanner');
+
+      if (!budgets.length) {
+        grid.innerHTML  = '';
+        empty.style.display  = 'flex';
+        banner.style.display = 'none';
+        return;
+      }
+      empty.style.display = 'none';
+
+      const overBudgets = [];
+
+      grid.innerHTML = budgets.map(b => {
+        const spent     = getSpentForBudget(b, txns);
+        const pct       = b.limit > 0 ? spent / b.limit : 0;
+        const barWidth  = Math.min(pct * 100, 100).toFixed(1);
+        const over      = spent > b.limit;
+        const nearLimit = pct >= 0.75 && !over;
+        const cat       = getCat(b.category);
+
+        const periodLabel = { monthly: 'monthly', weekly: 'weekly', semester: 'semester' }[b.period];
+
+        let statusText, statusClass;
+        if (over) {
+          overBudgets.push(b.name);
+          const excess = spent - b.limit;
+          statusText  = `Over budget by AED ${excess.toFixed(2)}`;
+          statusClass = 'status-over';
+        } else if (nearLimit) {
+          const rem = b.limit - spent;
+          const remPct = Math.round((rem / b.limit) * 100);
+          statusText  = `${remPct}% remaining — nearing limit`;
+          statusClass = 'status-warn';
+        } else {
+          const rem = b.limit - spent;
+          const remPct = Math.round((rem / b.limit) * 100);
+          statusText  = `${remPct}% remaining`;
+          statusClass = 'status-ok';
+        }
+
+        let barClass = 'bar-ok';
+        if (nearLimit) barClass = 'bar-warn';
+        if (over)      barClass = 'bar-over';
+
+        return `
+          <div class="budget-card ${over ? 'card-over' : nearLimit ? 'card-warn' : ''}">
+            <div class="budget-card-top">
+              <div>
+                <div class="budget-name">${b.name}</div>
+                <div class="budget-meta">
+                  <span style="color:${cat.color}">${b.category}</span>
+                  &nbsp;•&nbsp;${periodLabel}
+                </div>
+              </div>
+              <button class="budget-del" onclick="deleteBudget('${b.id}')" title="Delete budget">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+              </button>
+            </div>
+
+            <div class="budget-amounts">
+              <span class="budget-spent ${over ? 'amt-over' : ''}">AED ${spent.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
+              <span class="budget-limit">/ AED ${b.limit.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
+            </div>
+
+            <div class="budget-bar-wrap">
+              <div class="budget-bar ${barClass}" style="width:${barWidth}%"></div>
+            </div>
+
+            <div class="budget-status ${statusClass}">
+              ${over ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>' : ''}
+              ${statusText}
+            </div>
+          </div>`;
+      }).join('');
+
+      // Show alert banner if any budgets exceeded
+      if (overBudgets.length) {
+        banner.style.display = 'flex';
+        const names = overBudgets.join(', ');
+        document.getElementById('alertText').textContent =
+          `You have exceeded your budget for: ${names}`;
+      } else {
+        banner.style.display = 'none';
+      }
+    }
+
+    renderBudgets();
+  </script>
+</body>
+</html>
