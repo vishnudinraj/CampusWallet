@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CampusWallet – Semester Mode</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">C</div>
+      <div>
+        <div class="logo-title">CampusWallet</div>
+        <div class="logo-sub">UAE Edition</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </a>
+      <a href="transactions.html" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+        Transactions
+      </a>
+      <a href="budgets.html" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Budgets
+      </a>
+      <a href="goals.html" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        Goals
+      </a>
+      <a href="finlearn.html" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        FinLearn
+      </a>
+      <a href="converter.html" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        Converter
+      </a>
+      <a href="zakat.html" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Zakat
+      </a>
+      <a href="ramadan.html" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/><circle cx="18.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+        Ramadan & Eid
+      </a>
+      <a href="semester.html" class="nav-item active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        Semester
+      </a>
+    </nav>
+    <button class="theme-toggle" onclick="toggleTheme()">
+      <span class="tt-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+      <span class="tt-label">Dark Mode</span>
+    </button>
+    <button class="logout-btn" onclick="logout()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Logout
+    </button>
+    <div class="tip-card">
+      <div class="tip-header">
+        <span class="tip-icon">🎓</span>
+        <span class="tip-label">Semester tip</span>
+      </div>
+      <p class="tip-text">Set your semester budget on day one — then let the weekly allowance guide every spending decision.</p>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="tx-page-header">
+      <div>
+        <h1>Semester Mode</h1>
+        <p class="page-sub">Plan your semester budget and track your financial health</p>
+      </div>
+    </div>
+
+    <!-- ── Setup + Health grid ── -->
+    <div class="sem-top-grid">
+
+      <!-- Semester Setup -->
+      <div class="card">
+        <div class="card-header" style="margin-bottom:4px">
+          <h2>⚙️ Semester Setup</h2>
+          <button class="sem-edit-btn" id="semEditBtn" onclick="toggleSemForm()" style="display:none">Edit</button>
+        </div>
+
+        <div id="semFormWrap">
+          <form onsubmit="saveSemForm(event)" style="margin-top:12px">
+            <div class="form-group">
+              <label>Semester Name</label>
+              <input type="text" id="semName" placeholder="e.g. Fall 2025" />
+            </div>
+            <div class="sem-date-row">
+              <div class="form-group" style="margin:0;flex:1">
+                <label>Start Date</label>
+                <input type="date" id="semStart" required />
+              </div>
+              <div class="form-group" style="margin:0;flex:1">
+                <label>End Date</label>
+                <input type="date" id="semEnd" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Total Budget (AED)</label>
+              <input type="number" id="semBudget" placeholder="e.g. 15000" step="100" min="100" required />
+            </div>
+            <div class="form-group">
+              <label>City <span class="optional">(for template reference)</span></label>
+              <select id="semCity">
+                <option value="Dubai">Dubai</option>
+                <option value="Abu Dhabi">Abu Dhabi</option>
+                <option value="Sharjah">Sharjah</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <button type="submit" class="btn-primary">Save Semester</button>
+          </form>
+        </div>
+
+        <div id="semSummaryWrap" style="display:none">
+          <div class="sem-summary" id="semSummaryContent"></div>
+          <div class="sem-timeline" id="semTimeline"></div>
+        </div>
+      </div>
+
+      <!-- Health Score -->
+      <div class="card sem-health-card" id="semHealthCard" style="display:none">
+        <div class="card-header" style="margin-bottom:16px">
+          <h2>📊 Semester Health</h2>
+          <span class="sem-health-badge" id="semHealthBadge"></span>
+        </div>
+        <div class="sem-health-body">
+          <div class="sem-ring-wrap">
+            <svg class="sem-ring-svg" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="48" fill="none" stroke="var(--border)" stroke-width="9"/>
+              <circle id="semRingFill" cx="60" cy="60" r="48" fill="none"
+                      stroke="#1a9b7b" stroke-width="9" stroke-linecap="round"
+                      stroke-dasharray="302" stroke-dashoffset="0"
+                      transform="rotate(-90 60 60)"/>
+            </svg>
+            <div class="sem-ring-center">
+              <div class="sem-ring-num" id="semRingNum">—</div>
+              <div class="sem-ring-lbl">Score</div>
+            </div>
+          </div>
+          <div class="sem-metrics">
+            <div class="sem-metric">
+              <div class="sem-metric-val" id="smWeeklyBudget">—</div>
+              <div class="sem-metric-lbl">Weekly budget</div>
+            </div>
+            <div class="sem-metric">
+              <div class="sem-metric-val" id="smWeeklySpent">—</div>
+              <div class="sem-metric-lbl">Spent this week</div>
+            </div>
+            <div class="sem-metric">
+              <div class="sem-metric-val" id="smRemaining">—</div>
+              <div class="sem-metric-lbl">Remaining</div>
+            </div>
+            <div class="sem-metric">
+              <div class="sem-metric-val" id="smDaysLeft">—</div>
+              <div class="sem-metric-lbl">Days left</div>
+            </div>
+          </div>
+        </div>
+        <div class="sem-health-msg" id="semHealthMsg"></div>
+      </div>
+
+    </div>
+
+    <!-- ── Upcoming Alerts ── -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-header" style="margin-bottom:4px">
+        <h2>🔔 Upcoming Alerts</h2>
+        <button class="btn-add" onclick="toggleAlertForm()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add
+        </button>
+      </div>
+      <p class="page-sub" style="font-size:12px;margin-bottom:14px">Set reminders for tuition, visa renewals, and health insurance — shown 30 days in advance.</p>
+
+      <!-- Add alert inline form -->
+      <div id="alertFormWrap" class="sem-alert-form" style="display:none">
+        <div class="sem-date-row" style="gap:10px">
+          <div class="form-group" style="margin:0;flex:2">
+            <label>Description</label>
+            <input type="text" id="alertLabel" placeholder="e.g. Tuition Payment — Spring Semester" required />
+          </div>
+          <div class="form-group" style="margin:0;flex:1">
+            <label>Type</label>
+            <select id="alertType" onchange="onAlertTypeChange()">
+              <option value="tuition">🎓 Tuition</option>
+              <option value="visa">📋 Visa</option>
+              <option value="insurance">💊 Insurance</option>
+              <option value="custom">📅 Custom</option>
+            </select>
+          </div>
+        </div>
+        <div class="sem-date-row" style="gap:10px">
+          <div class="form-group" style="margin:0;flex:1">
+            <label>Due Date</label>
+            <input type="date" id="alertDate" required />
+          </div>
+          <div class="form-group" style="margin:0;flex:1">
+            <label>Amount (AED) <span class="optional">(optional)</span></label>
+            <input type="number" id="alertAmount" placeholder="0.00" step="0.01" min="0" />
+          </div>
+          <div class="form-group" style="margin:0;flex:1">
+            <label>Alert me</label>
+            <select id="alertDays">
+              <option value="7">7 days before</option>
+              <option value="14">14 days before</option>
+              <option value="30" selected>30 days before</option>
+              <option value="60">60 days before</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn-primary" style="flex:1" onclick="addAlert()">Save Alert</button>
+          <button class="sem-cancel-btn" onclick="toggleAlertForm()">Cancel</button>
+        </div>
+      </div>
+
+      <div id="alertList"></div>
+    </div>
+
+    <!-- ── City Budget Guide ── -->
+    <div class="card">
+      <div class="card-header" style="margin-bottom:12px">
+        <h2>🗺️ City Budget Guide</h2>
+      </div>
+      <p class="page-sub" style="font-size:13px;margin-bottom:16px">Pre-set monthly cost estimates calibrated for each UAE student market. Select a city to see the breakdown, then apply it as budgets.</p>
+      <div class="sem-city-tabs" id="semCityTabs">
+        <button class="sem-city-tab active" onclick="showCity('Dubai')">🏙️ Dubai</button>
+        <button class="sem-city-tab" onclick="showCity('Abu Dhabi')">🕌 Abu Dhabi</button>
+        <button class="sem-city-tab" onclick="showCity('Sharjah')">🌆 Sharjah</button>
+      </div>
+      <div id="cityGuideContent"></div>
+    </div>
+
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    initTheme();
+    if (!getSession()) { window.location.replace('login.html'); }
+
+    let sem      = loadSemester();
+    const allTxns = loadTxns();
+    let alerts   = loadSemAlerts();
+    let semFormOpen = !sem;   // open if no semester yet
+    let alertFormOpen = false;
+    let activeCity = sem && sem.city && CITY_TEMPLATES[sem.city] ? sem.city : 'Dubai';
+
+    // ── Semester Setup ──
+    function toggleSemForm() {
+      semFormOpen = !semFormOpen;
+      document.getElementById('semFormWrap').style.display    = semFormOpen ? 'block' : 'none';
+      document.getElementById('semSummaryWrap').style.display = semFormOpen ? 'none'  : 'block';
+      if (semFormOpen && sem) populateSemForm();
+    }
+
+    function populateSemForm() {
+      if (!sem) return;
+      document.getElementById('semName').value   = sem.name   || '';
+      document.getElementById('semStart').value  = sem.startDate || '';
+      document.getElementById('semEnd').value    = sem.endDate   || '';
+      document.getElementById('semBudget').value = sem.totalBudget || '';
+      document.getElementById('semCity').value   = sem.city || 'Dubai';
+    }
+
+    function saveSemForm(e) {
+      e.preventDefault();
+      sem = {
+        name:        document.getElementById('semName').value.trim() || 'Current Semester',
+        startDate:   document.getElementById('semStart').value,
+        endDate:     document.getElementById('semEnd').value,
+        totalBudget: parseFloat(document.getElementById('semBudget').value),
+        city:        document.getElementById('semCity').value,
+      };
+      if (sem.endDate <= sem.startDate) { alert('End date must be after start date.'); return; }
+      saveSemester(sem);
+      semFormOpen = false;
+      renderAll();
+    }
+
+    function renderSemSetup() {
+      const editBtn = document.getElementById('semEditBtn');
+      editBtn.style.display = sem ? 'inline-block' : 'none';
+
+      document.getElementById('semFormWrap').style.display    = semFormOpen ? 'block' : 'none';
+      document.getElementById('semSummaryWrap').style.display = semFormOpen || !sem ? 'none' : 'block';
+
+      if (!sem) return;
+      if (semFormOpen) { populateSemForm(); return; }
+
+      const t     = today();
+      const isActive = t >= sem.startDate && t <= sem.endDate;
+      const isPast   = t > sem.endDate;
+      const statusLbl = isActive ? '● Active' : isPast ? 'Completed' : 'Upcoming';
+      const statusCls = isActive ? 'color:#1a9b7b' : isPast ? 'color:#6b7280' : 'color:#3b82f6';
+
+      const months = ((new Date(sem.endDate) - new Date(sem.startDate)) / 86400000 / 30.44).toFixed(1);
+
+      document.getElementById('semSummaryContent').innerHTML = `
+        <div class="sem-sum-grid">
+          <div class="sem-sum-item">
+            <div class="sem-sum-val">${sem.name || 'Semester'}</div>
+            <div class="sem-sum-lbl">Name</div>
+          </div>
+          <div class="sem-sum-item">
+            <div class="sem-sum-val" style="${statusCls}">${statusLbl}</div>
+            <div class="sem-sum-lbl">Status</div>
+          </div>
+          <div class="sem-sum-item">
+            <div class="sem-sum-val">AED ${sem.totalBudget.toLocaleString()}</div>
+            <div class="sem-sum-lbl">Total budget</div>
+          </div>
+          <div class="sem-sum-item">
+            <div class="sem-sum-val">${months} months</div>
+            <div class="sem-sum-lbl">Duration</div>
+          </div>
+          <div class="sem-sum-item">
+            <div class="sem-sum-val">${fmtIslamicDate(sem.startDate)}</div>
+            <div class="sem-sum-lbl">Starts</div>
+          </div>
+          <div class="sem-sum-item">
+            <div class="sem-sum-val">${fmtIslamicDate(sem.endDate)}</div>
+            <div class="sem-sum-lbl">Ends</div>
+          </div>
+        </div>`;
+
+      // Timeline progress bar
+      const t0 = today();
+      const pct = sem ? (() => {
+        const total = (new Date(sem.endDate) - new Date(sem.startDate)) / 86400000;
+        const elapsed = Math.max(0, Math.min(total, (new Date() - new Date(sem.startDate)) / 86400000));
+        return Math.min(100, (elapsed / total) * 100);
+      })() : 0;
+      document.getElementById('semTimeline').innerHTML = `
+        <div class="sem-timeline-wrap">
+          <div class="sem-tl-labels">
+            <span>${sem.startDate}</span><span>${sem.endDate}</span>
+          </div>
+          <div class="budget-bar-wrap" style="height:8px">
+            <div class="budget-bar bar-ok" style="width:${pct.toFixed(1)}%"></div>
+          </div>
+          <div class="sem-tl-sub">${pct.toFixed(0)}% of semester elapsed</div>
+        </div>`;
+    }
+
+    // ── Health Score ──
+    const STATUS_META = {
+      great:  { label: 'Ahead of budget',     color: '#1a9b7b', msg: 'You\'re spending below your weekly allowance — great discipline! Keep it up.' },
+      ok:     { label: 'On track',            color: '#3b82f6', msg: 'Your spending is on pace with your semester budget. Stay consistent.' },
+      warn:   { label: 'Watch your spending', color: '#f59e0b', msg: 'You\'re spending faster than your weekly allowance. Look for areas to cut back.' },
+      danger: { label: 'Overspending',        color: '#ef4444', msg: 'You\'re significantly over pace. Reduce non-essential spending now to avoid running out before semester end.' },
+    };
+
+    function renderHealthScore() {
+      const card = document.getElementById('semHealthCard');
+      if (!sem) { card.style.display = 'none'; return; }
+      const t = today();
+      if (t < sem.startDate) { card.style.display = 'none'; return; }
+
+      card.style.display = 'block';
+      const h  = calcSemesterHealth(sem, allTxns);
+      const m  = STATUS_META[h.status];
+
+      // Ring
+      const circumference = 302;
+      const clampedScore  = Math.min(h.health, 100);
+      const offset        = circumference * (1 - clampedScore / 100);
+      document.getElementById('semRingFill').style.stroke          = m.color;
+      document.getElementById('semRingFill').style.strokeDashoffset = offset;
+      document.getElementById('semRingNum').textContent  = h.health > 150 ? '150+' : h.health;
+      document.getElementById('semRingNum').style.color  = m.color;
+
+      document.getElementById('semHealthBadge').textContent  = m.label;
+      document.getElementById('semHealthBadge').style.color  = m.color;
+      document.getElementById('semHealthBadge').style.background = m.color + '18';
+
+      document.getElementById('smWeeklyBudget').textContent = `AED ${h.weeklyBudget.toLocaleString()}`;
+      document.getElementById('smWeeklySpent').textContent  = `AED ${h.weeklySpent.toLocaleString()}`;
+      document.getElementById('smRemaining').textContent    = `AED ${Math.round(h.remaining).toLocaleString()}`;
+      document.getElementById('smDaysLeft').textContent     = `${h.daysLeft}`;
+
+      document.getElementById('semHealthMsg').textContent = m.msg;
+      document.getElementById('semHealthMsg').style.borderLeftColor = m.color;
+    }
+
+    // ── Alerts ──
+    function toggleAlertForm() {
+      alertFormOpen = !alertFormOpen;
+      document.getElementById('alertFormWrap').style.display = alertFormOpen ? 'block' : 'none';
+      if (alertFormOpen) document.getElementById('alertDate').value = today();
+    }
+
+    function onAlertTypeChange() {
+      const type = document.getElementById('alertType').value;
+      const meta = ALERT_TYPES[type];
+      if (meta) document.getElementById('alertLabel').placeholder = meta.label;
+    }
+
+    function addAlert() {
+      const label  = document.getElementById('alertLabel').value.trim();
+      const date   = document.getElementById('alertDate').value;
+      const type   = document.getElementById('alertType').value;
+      const amount = parseFloat(document.getElementById('alertAmount').value) || 0;
+      const days   = parseInt(document.getElementById('alertDays').value);
+
+      if (!label || !date) { alert('Please fill in a description and due date.'); return; }
+
+      alerts.push({ id: Date.now().toString(), type, label, date, amount, alertDays: days });
+      alerts.sort((a, b) => a.date.localeCompare(b.date));
+      saveSemAlerts(alerts);
+
+      alertFormOpen = false;
+      document.getElementById('alertFormWrap').style.display = 'none';
+      document.getElementById('alertLabel').value  = '';
+      document.getElementById('alertAmount').value = '';
+      renderAlerts();
+    }
+
+    function deleteAlert(id) {
+      alerts = alerts.filter(a => a.id !== id);
+      saveSemAlerts(alerts);
+      renderAlerts();
+    }
+
+    function renderAlerts() {
+      const el  = document.getElementById('alertList');
+      const t   = today();
+
+      if (!alerts.length) {
+        el.innerHTML = `<p class="empty-state" style="padding:16px 0">No alerts set. Add tuition dates, visa deadlines, or insurance renewals above.</p>`;
+        return;
+      }
+
+      el.innerHTML = alerts.map(a => {
+        const meta      = ALERT_TYPES[a.type] || ALERT_TYPES.custom;
+        const diff      = Math.ceil((new Date(a.date + 'T00:00:00') - new Date(t + 'T00:00:00')) / 86400000);
+        const isPast    = diff < 0;
+        const isUrgent  = diff >= 0 && diff <= a.alertDays;
+        const daysLabel = isPast ? `${Math.abs(diff)} days ago` : diff === 0 ? 'Today' : `In ${diff} days`;
+        const urgentClass = isUrgent && !isPast ? 'sem-alert-urgent' : '';
+
+        return `
+          <div class="sem-alert-row ${urgentClass}">
+            <div class="tx-icon" style="background:${meta.bg};color:${meta.color};flex-shrink:0">${meta.emoji}</div>
+            <div class="tx-body">
+              <div class="tx-name">${a.label}</div>
+              <div class="tx-cat">${a.date}${a.amount ? ` · AED ${a.amount.toLocaleString()}` : ''}</div>
+            </div>
+            <div class="sem-alert-right">
+              <span class="sem-days-badge ${isPast ? 'badge-past' : isUrgent ? 'badge-urgent' : ''}">${daysLabel}</span>
+              <button class="tx-delete" onclick="deleteAlert('${a.id}')" title="Remove">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+              </button>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    // ── City Budget Guide ──
+    let currentCity = activeCity;
+
+    function showCity(city) {
+      currentCity = city;
+      document.querySelectorAll('.sem-city-tab').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.includes(city.split(' ')[0]) || (city === 'Abu Dhabi' && btn.textContent.includes('Abu')));
+      });
+      renderCityGuide();
+    }
+
+    function renderCityGuide() {
+      const tmpl    = CITY_TEMPLATES[currentCity];
+      const el      = document.getElementById('cityGuideContent');
+      const monthly = tmpl.monthly.reduce((s, r) => s + r.amount, 0);
+
+      // Use semester duration if configured, otherwise 4 months
+      let months = 4;
+      if (sem && sem.startDate && sem.endDate) {
+        months = Math.max(1, (new Date(sem.endDate) - new Date(sem.startDate)) / 86400000 / 30.44);
+      }
+      const semTotal = Math.round(monthly * months);
+
+      el.innerHTML = `
+        <p class="sem-city-desc">${tmpl.desc}</p>
+        <div class="sem-city-table">
+          ${tmpl.monthly.map(r => {
+            const cat = getCat(r.category);
+            return `
+              <div class="sem-city-row">
+                <div class="tx-icon" style="background:${cat.bg};color:${cat.color};width:30px;height:30px;font-size:14px;flex-shrink:0">${cat.emoji}</div>
+                <span class="sem-city-cat">${r.category}</span>
+                <div class="sem-city-bar-wrap">
+                  <div class="sem-city-bar" style="width:${Math.round((r.amount / monthly) * 100)}%;background:${cat.color}20;border:1px solid ${cat.color}60"></div>
+                </div>
+                <span class="sem-city-amt">AED ${r.amount.toLocaleString()}</span>
+              </div>`;
+          }).join('')}
+          <div class="sem-city-total">
+            <span>Monthly total</span>
+            <strong>AED ${monthly.toLocaleString()}</strong>
+          </div>
+          <div class="sem-city-total sem-city-sem">
+            <span>Semester total (${months.toFixed(1)} months)</span>
+            <strong>AED ${semTotal.toLocaleString()}</strong>
+          </div>
+        </div>
+        <div class="sem-city-actions">
+          <button class="btn-primary" onclick="applyTemplate()">Apply as Monthly Budgets</button>
+          ${!sem ? `<button class="sem-use-budget-btn" onclick="useCityBudget()">Use as Semester Budget</button>` : ''}
+        </div>`;
+    }
+
+    function applyTemplate() {
+      const tmpl    = CITY_TEMPLATES[currentCity];
+      const budgets = loadBudgets();
+
+      tmpl.monthly.forEach(r => {
+        const exists = budgets.find(b => b.category === r.category && b.period === 'monthly');
+        if (exists) {
+          exists.limit = r.amount;
+        } else {
+          budgets.push({
+            id: Date.now().toString() + Math.random(),
+            name: `${r.category} Budget`,
+            category: r.category,
+            limit: r.amount,
+            period: 'monthly',
+            createdAt: today(),
+          });
+        }
+      });
+      saveBudgets(budgets);
+      alert(`${currentCity} budget template applied as monthly budgets. View them in the Budgets section.`);
+    }
+
+    function useCityBudget() {
+      const tmpl   = CITY_TEMPLATES[currentCity];
+      const monthly = tmpl.monthly.reduce((s, r) => s + r.amount, 0);
+      document.getElementById('semCity').value   = currentCity;
+      document.getElementById('semBudget').value = Math.round(monthly * 4); // default 4 months
+      if (!semFormOpen) toggleSemForm();
+      document.getElementById('semCity').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function renderAll() {
+      renderSemSetup();
+      renderHealthScore();
+      renderAlerts();
+      renderCityGuide();
+    }
+
+    renderAll();
+    showCity(activeCity);
+  </script>
+</body>
+</html>

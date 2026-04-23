@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CampusWallet – Create Account</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="auth-body">
+
+  <div class="auth-wrapper">
+    <!-- Left panel -->
+    <div class="auth-brand">
+      <div class="auth-brand-logo">
+        <div class="logo-icon" style="width:52px;height:52px;font-size:24px;border-radius:14px">C</div>
+        <div>
+          <div class="logo-title" style="font-size:20px">CampusWallet</div>
+          <div class="logo-sub">UAE Edition</div>
+        </div>
+      </div>
+      <h1 class="auth-brand-heading">Your finances,<br/>under control.</h1>
+      <p class="auth-brand-sub">Join thousands of UAE students who manage their money smarter with CampusWallet.</p>
+      <div class="auth-features">
+        <div class="auth-feature"><span>💰</span> Budget tracking</div>
+        <div class="auth-feature"><span>🎯</span> Savings goals</div>
+        <div class="auth-feature"><span>💱</span> Live currency converter</div>
+        <div class="auth-feature"><span>📚</span> Financial literacy tips</div>
+      </div>
+    </div>
+
+    <!-- Right panel: form -->
+    <div class="auth-card">
+      <h2 class="auth-heading">Create your account</h2>
+      <p class="auth-sub">Free forever. No credit card needed.</p>
+
+      <div class="auth-error" id="authError" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span id="authErrorText"></span>
+      </div>
+
+      <form onsubmit="handleRegister(event)">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" id="regName" placeholder="e.g. Ahmed" autocomplete="name" required />
+        </div>
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" id="regUser" placeholder="Choose a username" autocomplete="username" required />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <div class="pw-wrap">
+            <input type="password" id="regPass" placeholder="Choose a password" autocomplete="new-password" required />
+            <button type="button" class="pw-toggle" onclick="togglePw('regPass', this)" tabindex="-1">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <div class="pw-wrap">
+            <input type="password" id="regConfirm" placeholder="Repeat your password" autocomplete="new-password" required />
+            <button type="button" class="pw-toggle" onclick="togglePw('regConfirm', this)" tabindex="-1">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary" style="margin-top:8px">Create Account →</button>
+      </form>
+
+      <p class="auth-switch">Already have an account? <a href="login.html">Sign in</a></p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    initTheme();
+    if (getSession()) window.location.replace('index.html');
+
+    function togglePw(id, btn) {
+      const inp = document.getElementById(id);
+      const show = inp.type === 'password';
+      inp.type = show ? 'text' : 'password';
+      btn.innerHTML = show
+        ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>'
+        : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+    }
+
+    function handleRegister(e) {
+      e.preventDefault();
+      const name     = document.getElementById('regName').value.trim();
+      const username = document.getElementById('regUser').value.trim().toLowerCase();
+      const password = document.getElementById('regPass').value;
+      const confirm  = document.getElementById('regConfirm').value;
+      const errEl    = document.getElementById('authError');
+      errEl.style.display = 'none';
+
+      if (username.length < 3) {
+        document.getElementById('authErrorText').textContent = 'Username must be at least 3 characters.';
+        errEl.style.display = 'flex'; return;
+      }
+      if (!/^[a-z0-9_]+$/.test(username)) {
+        document.getElementById('authErrorText').textContent = 'Username can only contain letters, numbers, and underscores.';
+        errEl.style.display = 'flex'; return;
+      }
+      if (password.length < 4) {
+        document.getElementById('authErrorText').textContent = 'Password must be at least 4 characters.';
+        errEl.style.display = 'flex'; return;
+      }
+      if (password !== confirm) {
+        document.getElementById('authErrorText').textContent = 'Passwords do not match.';
+        errEl.style.display = 'flex'; return;
+      }
+
+      if (loadUser(username)) {
+        document.getElementById('authErrorText').textContent = 'That username is already taken.';
+        errEl.style.display = 'flex'; return;
+      }
+
+      saveUser({ username, password, displayName: name, createdAt: today() });
+      localStorage.setItem(`cw_migrated_${username}`, '1');
+      localStorage.setItem(`cw_show_tutorial_${username}`, '1');
+      setSession(username);
+      window.location.replace('index.html');
+    }
+  </script>
+</body>
+</html>
